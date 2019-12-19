@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  php:
+    container_name: md-php
+    image: local_md_php:7.1
+    environment:
+      - SYMFONY__MYSQL__DATABASE=${MYSQL_DATABASE}
+      - SYMFONY__MYSQL__USER=${MYSQL_USER}
+      - SYMFONY__MYSQL__PASSWORD=${MYSQL_PASSWORD}
+      - SYMFONY__MYSQL__PORT=${MYSQL_PORT}
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./:/var/www
+
+  sql:
+    container_name: md-sql
+    image: mariadb:10.3
+    ports:
+      - "${MYSQL_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - ./mysql.data:/var/lib/mysql/:rw
