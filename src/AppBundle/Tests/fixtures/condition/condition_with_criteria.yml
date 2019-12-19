@@ -1,0 +1,24 @@
+AppBundle\Entity\Condition:
+    cond_with_one_criteria:
+        name: cond_with_one_criteria
+    cond_with_two_criteria:
+        name: cond_with_two_criteria
+
+AppBundle\Entity\Criteria:
+    criteria_a:
+        data: Criteria A
+    criteria_b:
+        data: Criteria B
+
+AppBundle\Entity\CriteriaInCondition:
+    cc_cond_with_one_criteria:
+        condition: '@cond_with_one_criteria'
+        criteria: '@criteria_a'
+    cc_cond_with_two_criteria_a:
+        condition: '@cond_with_two_criteria'
+        criteria: '@criteria_b'
+    cc_cond_with_two_criteria_b:
+        condition: '@cond_with_two_criteria'
+        criteria: '@criteria_b'
+
+

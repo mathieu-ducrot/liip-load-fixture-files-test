@@ -35,3 +35,15 @@ orm.status:
 
 orm.status-prod: override ENV=prod
 orm.status-prod: orm.status
+
+orm.show-diff:
+	php app/console doctrine:schema:update --dump-sql --env=$(ENV)
+
+orm.install:
+	php app/console --env=$(ENV) doctrine:database:drop --if-exists --force
+	php app/console doctrine:database:create --env=$(ENV)
+	php app/console doctrine:schema:create --env=$(ENV)
+
+# Test
+orm.load-test:
+	php app/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/Tests --no-interaction --env=$(ENV)
