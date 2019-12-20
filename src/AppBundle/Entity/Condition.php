@@ -65,7 +65,7 @@ class Condition
     }
 
     /**
-     * @return ArrayCollection
+     * @return ArrayCollection|CriteriaInCondition[]
      */
     public function getCriteriaInCondition()
     {

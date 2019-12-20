@@ -28,6 +28,8 @@
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
+        "liip/functional-test-bundle": "^1.9",
+        "phpunit/phpunit": "^5.7",
         "sensio/generator-bundle": "~3.0",
         "symfony/phpunit-bridge": "~2.7"
     },

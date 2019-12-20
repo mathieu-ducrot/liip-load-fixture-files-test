@@ -52,4 +52,20 @@ class CriteriaInCondition
      * })
      */
     private $criteria;
+
+    /**
+     * @return Criteria
+     */
+    public function getCriteria()
+    {
+        return $this->criteria;
+    }
+
+    /**
+     * @param Criteria $criteria
+     */
+    public function setCriteria($criteria)
+    {
+        $this->criteria = $criteria;
+    }
 }

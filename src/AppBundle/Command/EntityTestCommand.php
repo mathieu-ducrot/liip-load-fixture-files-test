@@ -49,7 +49,14 @@ class EntityTestCommand extends ContainerAwareCommand
         }
         $output->writeln(sprintf("%d conditions loaded\n", $nbConditions));
         foreach ($conditions as $condition) {
-            $output->writeln(sprintf(" - condition %s with %d criteria\n", $condition->getName(), count($condition->getCriteriaInCondition())));
+            $nbCriteria = count($condition->getCriteriaInCondition());
+            $output->writeln(sprintf(" - condition %s with %d criteria", $condition->getName(), $nbCriteria));
+            if ($nbCriteria > 0) {
+                foreach ($condition->getCriteriaInCondition() as $criteriaInCondition) {
+                    $output->writeln(sprintf(" -- criteria %s", $criteriaInCondition->getCriteria()->getData()));
+                }
+            }
+            $output->writeln('');
         }
     }
 }

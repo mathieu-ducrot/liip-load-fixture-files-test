@@ -18,6 +18,13 @@ ps:
 logs:
 	docker-compose logs -f
 
+install:
+	make docker-build
+	make up
+	docker exec -it md-php composer install
+	docker exec -it md-php make orm.install
+	docker exec -it md-php make orm.status
+
 ## Docker - SSH Container
 ssh-php:
 	docker exec -it md-php bash
@@ -47,3 +54,9 @@ orm.install:
 # Test
 orm.load-test:
 	php app/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/Tests --no-interaction --env=$(ENV)
+
+orm.dummy-test:
+	php app/console entity:test
+
+phpunit:
+	bin/phpunit -c app/phpunit.xml.dist --colors=never
