@@ -1,0 +1,3 @@
+AppBundle\Entity\Condition:
+    cond_without_criteria:
+        name: cond_without_criteria

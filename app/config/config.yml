@@ -38,6 +38,7 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
+        server_version: 'mariadb-10.3.9'
         driver: pdo_mysql
         host: '%database_host%'
         port: '%database_port%'
