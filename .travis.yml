@@ -23,6 +23,8 @@ before_script:
   - mysql -e "grant all on test.* to 'travis'@'localhost';"
 
 script:
-  - bin/phpcs --ignore=/vendor/*,/app/*,/web/*,/bin/* --extensions=php --encoding=utf-8 --standard=PSR12 -np .
-  - php app/console doctrine:schema:create --env=test
-  - php app/console doctrine:schema:validate --env=test
+  - make qualimetry
+  - make orm.install
+  - make orm.load-test
+  - make orm.dummy-test
+  - make phpunit
