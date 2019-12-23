@@ -101,9 +101,9 @@ So I will keep listen to your feeback, if you could help me to understand what a
 ## Annexe - Dependancies
 
 - PHP 7.1 from the Dockerfile
-- [Symfony 2.8](https://symfony.com/doc/2.8/setup.html#creating-symfony-applications-with-composer)
-- doctrine/orm 2.4.8
-- doctrine/dbal 2.7.2
+- symfony/symfony 3.4.26
+- doctrine/orm 2.7.0
+- doctrine/dbal 2.9.3
 - doctrine/doctrine-fixtures-bundle 2.4.1
 - nelmio/alice 2.3.5
 - liip/functional-test-bundle 1.11.0

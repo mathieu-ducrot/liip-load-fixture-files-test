@@ -38,37 +38,37 @@ ssh-mysql:
 
 # Database
 orm.status:
-	php app/console doctrine:schema:validate --env=$(ENV)
+	php bin/console doctrine:schema:validate --env=$(ENV)
 
 orm.status-prod: override ENV=prod
 orm.status-prod: orm.status
 
 orm.show-diff:
-	php app/console doctrine:schema:update --dump-sql --env=$(ENV)
+	php bin/console doctrine:schema:update --dump-sql --env=$(ENV)
 
 orm.install:
-	php app/console --env=$(ENV) doctrine:database:drop --if-exists --force
-	php app/console doctrine:database:create --env=$(ENV)
-	php app/console doctrine:schema:create --env=$(ENV)
+	php bin/console --env=$(ENV) doctrine:database:drop --if-exists --force
+	php bin/console doctrine:database:create --env=$(ENV)
+	php bin/console doctrine:schema:create --env=$(ENV)
 
 # Qualimetry rules
 
 ## Qualimetry : checkstyle
 cs: checkstyle
 checkstyle:
-	bin/phpcs --extensions=php -np --standard=PSR12 --report=full src
+	vendor/bin/phpcs --extensions=php -np --standard=PSR12 --report=full src
 
 ## Qualimetry : code-beautifier
 cb: code-beautifier
 code-beautifier:
-	bin/phpcbf --extensions=php --standard=PSR12 src
+	vendor/bin/phpcbf --extensions=php --standard=PSR12 src
 
 ## Qualimetry : lint
 lint.php:
 	find -L src -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
 
 lint.yaml:
-    php app/console lint:yaml app
+    php bin/console lint:yaml app
 
 ## Qualimetry : composer
 composer.validate:
@@ -79,10 +79,10 @@ qualimetry: checkstyle lint.php lint.yaml composer.validate
 
 # Test
 orm.load-test:
-	php app/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/Tests --no-interaction --env=$(ENV)
+	php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/Tests --no-interaction --env=$(ENV)
 
 orm.dummy-test:
-	php app/console entity:test
+	php bin/console entity:test
 
 phpunit:
-	bin/phpunit -c app/phpunit.xml.dist --colors=never
+	vendor/bin/phpunit --colors=never

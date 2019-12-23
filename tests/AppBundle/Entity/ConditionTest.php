@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Tests\Entity;
+namespace Tests\AppBundle\Entity;
 
 use AppBundle\Entity\Condition;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -9,7 +9,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 /**
  * Test Condition method
  *
- * bin/phpunit -c app/ src/AppBundle/Tests/Entity/ConditionTest.php
+ * vendor/bin/phpunit tests/AppBundle/Entity/ConditionTest.php
  */
 class ConditionsTest extends WebTestCase
 {
@@ -18,7 +18,7 @@ class ConditionsTest extends WebTestCase
      */
     protected function getFixtureDir()
     {
-        return 'src/AppBundle/Tests/fixtures';
+        return 'tests/AppBundle/fixtures';
     }
 
     /**

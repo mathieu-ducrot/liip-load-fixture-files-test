@@ -19,7 +19,7 @@ class Loader extends ContainerAwareFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $this->fixturesDir = 'src/AppBundle/Tests/fixtures';
+        $this->fixturesDir = 'tests/AppBundle/fixtures';
 
         Fixtures::load($this->getFiles(), $manager);
     }
