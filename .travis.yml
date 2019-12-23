@@ -1,0 +1,30 @@
+language: php
+
+php:
+  - 7.1
+
+addons:
+  mariadb: '10.3'
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+before_install:
+  - phpenv config-add travis/php/php.ini
+  - cp travis/app/config/parameters.yml app/config/parameters.yml
+  - composer self-update
+
+install: composer install -o
+
+before_script:
+  - mysql -e "CREATE DATABASE test;"
+  - mysql -e "CREATE USER 'travis'@'localhost' IDENTIFIED BY 'travis';"
+  - mysql -e "grant all on test.* to 'travis'@'localhost';"
+
+script:
+  - make qualimetry
+  - make orm.install
+  - make orm.load-test
+  - make orm.dummy-test
+  - make phpunit

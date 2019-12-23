@@ -51,6 +51,32 @@ orm.install:
 	php app/console doctrine:database:create --env=$(ENV)
 	php app/console doctrine:schema:create --env=$(ENV)
 
+# Qualimetry rules
+
+## Qualimetry : checkstyle
+cs: checkstyle
+checkstyle:
+	bin/phpcs --extensions=php -np --standard=PSR12 --report=full src
+
+## Qualimetry : code-beautifier
+cb: code-beautifier
+code-beautifier:
+	bin/phpcbf --extensions=php --standard=PSR12 src
+
+## Qualimetry : lint
+lint.php:
+	find -L src -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+
+lint.yaml:
+    php app/console lint:yaml app
+
+## Qualimetry : composer
+composer.validate:
+	composer validate composer.json
+
+qa: qualimetry
+qualimetry: checkstyle lint.php lint.yaml composer.validate
+
 # Test
 orm.load-test:
 	php app/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/Tests --no-interaction --env=$(ENV)

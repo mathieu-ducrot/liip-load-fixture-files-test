@@ -28,8 +28,8 @@ class ConditionsTest extends WebTestCase
     {
         $this->loadFixtureFiles(
             [
-                $this->getFixtureDir().'/condition/condition_without_criteria.yml',
-                $this->getFixtureDir().'/condition/condition_with_criteria.yml',
+                $this->getFixtureDir() . '/condition/condition_without_criteria.yml',
+                $this->getFixtureDir() . '/condition/condition_with_criteria.yml',
             ],
             false,
             null,
