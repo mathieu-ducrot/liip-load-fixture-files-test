@@ -1,6 +1,8 @@
 Liip Load Fixture Files Test
 ============================
 
+[![Build Status](https://api.travis-ci.org/mathieu-ducrot/liip-load-fixture-files-test.png?branch=master)](https://travis-ci.org/mathieu-ducrot/liip-load-fixture-files-test)
+
 Testing the loadFixtureFiles from the [LiipFunctionalTestBundle](https://github.com/liip/LiipFunctionalTestBundle) on
 database functional test.
 

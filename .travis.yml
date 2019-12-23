@@ -6,18 +6,23 @@ php:
 addons:
   mariadb: '10.3'
 
-env:
-  - SYMFONY__MYSQL__DATABASE=symfony SYMFONY__MYSQL__USER=dev SYMFONY__MYSQL__PASSWORD=dev SYMFONY__MYSQL__PORT=3306
-
 cache:
   directories:
     - $HOME/.composer/cache/files
 
 before_install:
-  - sudo mysql -e 'create database symfony;'
-  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - phpenv config-add travis/php/php.ini
+  - cp travis/app/config/parameters.yml app/config/parameters.yml
+  - composer self-update
 
 install: composer install -o
 
+before_script:
+  - mysql -e "CREATE DATABASE test;"
+  - mysql -e "CREATE USER 'travis'@'localhost' IDENTIFIED BY 'travis';"
+  - mysql -e "grant all on test.* to 'travis'@'localhost';"
+
 script:
   - bin/phpcs --ignore=/vendor/*,/app/*,/web/*,/bin/* --extensions=php --encoding=utf-8 --standard=PSR12 -np .
+  - php app/console doctrine:schema:create --env=test
+  - php app/console doctrine:schema:validate --env=test
