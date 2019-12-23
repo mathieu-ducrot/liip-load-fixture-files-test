@@ -1,0 +1,23 @@
+language: php
+
+php:
+  - 7.1
+
+addons:
+  mariadb: '10.3'
+
+env:
+  - SYMFONY__MYSQL__DATABASE=symfony SYMFONY__MYSQL__USER=dev SYMFONY__MYSQL__PASSWORD=dev SYMFONY__MYSQL__PORT=3306
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+before_install:
+  - sudo mysql -e 'create database symfony;'
+  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
+install: composer install -o
+
+script:
+  - bin/phpcs --ignore=/vendor/*,/app/*,/web/*,/bin/* --extensions=php --encoding=utf-8 --standard=PSR12 -np .
