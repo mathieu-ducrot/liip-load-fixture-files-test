@@ -32,12 +32,10 @@ Test entity association
 3 conditions loaded
 
  - condition cond_without_criteria with 0 criteria
-
  - condition cond_with_one_criteria with 1 criteria
  -- criteria Criteria A
-
  - condition cond_with_two_criteria with 2 criteria
- -- criteria Criteria B
+ -- criteria Criteria A
  -- criteria Criteria B
 ```
 

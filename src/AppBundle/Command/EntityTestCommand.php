@@ -3,13 +3,13 @@
 namespace AppBundle\Command;
 
 use AppBundle\Entity\Condition;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * app/console entity:test
+ * bin/console entity:test
  */
 class EntityTestCommand extends ContainerAwareCommand
 {
@@ -56,7 +56,6 @@ class EntityTestCommand extends ContainerAwareCommand
                     $output->writeln(sprintf(" -- criteria %s", $criteriaInCondition->getCriteria()->getData()));
                 }
             }
-            $output->writeln('');
         }
     }
 }

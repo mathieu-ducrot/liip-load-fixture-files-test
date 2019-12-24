@@ -4,6 +4,7 @@ namespace Tests\AppBundle\Entity;
 
 use AppBundle\DataFixtures\Tests\Loader;
 use AppBundle\Entity\Condition;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
@@ -18,7 +19,7 @@ class ConditionsTest extends WebTestCase
      */
     protected function setUp()
     {
-        $this->loadFixtures([Loader::class]);
+        $this->loadFixtures([Loader::class], null, 'doctrine', ORMPurger::PURGE_MODE_TRUNCATE);
     }
 
     public function testGetCriteriaInCondition()
@@ -26,6 +27,8 @@ class ConditionsTest extends WebTestCase
         $repository = $this->getContainer()->get('doctrine')->getRepository(Condition::class);
         $conditions = $repository->findAll();
         $this->assertEquals(3, count($conditions));
+        $firstCondition = $conditions[0];
+        $this->assertEquals(1, $firstCondition->getId());
 
         $expectedNbCriteria = 0;
         foreach ($conditions as $condition) {

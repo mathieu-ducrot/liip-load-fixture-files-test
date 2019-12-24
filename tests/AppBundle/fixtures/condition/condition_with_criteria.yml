@@ -16,7 +16,7 @@ AppBundle\Entity\CriteriaInCondition:
         criteria: '@criteria_a'
     cc_cond_with_two_criteria_a:
         condition: '@cond_with_two_criteria'
-        criteria: '@criteria_b'
+        criteria: '@criteria_a'
     cc_cond_with_two_criteria_b:
         condition: '@cond_with_two_criteria'
         criteria: '@criteria_b'
