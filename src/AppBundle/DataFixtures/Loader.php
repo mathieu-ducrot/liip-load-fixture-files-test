@@ -1,13 +1,12 @@
 <?php
 
-namespace AppBundle\DataFixtures\Tests;
+namespace AppBundle\DataFixtures;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Nelmio\Alice\Fixtures;
 use Symfony\Bridge\Doctrine\Tests\Fixtures\ContainerAwareFixture;
 
-class Loader extends ContainerAwareFixture implements FixtureInterface
+class Loader extends ContainerAwareFixture implements ORMFixtureInterface
 {
     /**
      * @var string
@@ -21,7 +20,8 @@ class Loader extends ContainerAwareFixture implements FixtureInterface
     {
         $this->fixturesDir = 'tests/AppBundle/fixtures';
 
-        Fixtures::load($this->getFiles(), $manager);
+        $loader = $this->container->get('fidry_alice_data_fixtures.loader.doctrine');
+        $loader->load($this->getFiles());
     }
 
     /**
@@ -31,9 +31,9 @@ class Loader extends ContainerAwareFixture implements FixtureInterface
     {
         $pattern = $this->fixturesDir . '/%s.yml';
 
-        return [
+        return array_reverse([
             sprintf($pattern, 'condition/condition_without_criteria'),
             sprintf($pattern, 'condition/condition_with_criteria'),
-        ];
+        ]);
     }
 }

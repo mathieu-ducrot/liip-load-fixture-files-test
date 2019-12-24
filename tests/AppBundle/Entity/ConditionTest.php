@@ -2,51 +2,69 @@
 
 namespace Tests\AppBundle\Entity;
 
-use AppBundle\DataFixtures\Tests\Loader;
 use AppBundle\Entity\Condition;
-use Doctrine\ORM\Tools\SchemaTool;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Doctrine\ORM\EntityManager;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * Test Condition method
  *
  * vendor/bin/phpunit tests/AppBundle/Entity/ConditionTest.php
  */
-class ConditionsTest extends WebTestCase
+class ConditionsTest extends KernelTestCase
 {
-    /** @var SchemaTool */
-    protected $schemaTool = null;
-    /** @var \Doctrine\Persistence\Mapping\ClassMetadata[]|null */
-    protected $metadatas = null;
+    /** @var EntityManager */
+    private $entityManager;
+
+    use FixturesTrait;
+
+    /**
+     * @return string
+     */
+    protected function getFixtureDir()
+    {
+        return 'tests/AppBundle/fixtures';
+    }
 
     /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
-        if ($this->schemaTool == null) {
-            $em = $this->getContainer()->get('doctrine')->getManager();
-            $this->metadatas = $em->getMetadataFactory()->getAllMetadata();
-            $this->schemaTool = new SchemaTool($em);
-        }
+        $kernel = self::bootKernel();
 
-        $this->schemaTool->dropDatabase();
-        $this->schemaTool->createSchema($this->metadatas);
-        $this->postFixtureSetup();
+        $this->entityManager = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
 
-        $this->loadFixtures([Loader::class]);
+        $this->loadFixtureFiles(array_reverse([
+            $this->getFixtureDir() . '/condition/condition_without_criteria.yml',
+            $this->getFixtureDir() . '/condition/condition_with_criteria.yml',
+        ]));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->entityManager->close();
+        $this->entityManager = null; // avoid memory leaks
     }
 
     public function testDummyLoadToCheckPurgeIdOnNextTest()
     {
-        $repository = $this->getContainer()->get('doctrine')->getRepository(Condition::class);
+        $repository = $this->entityManager->getRepository(Condition::class);
         $conditions = $repository->findAll();
         $this->assertEquals(3, count($conditions));
     }
 
     public function testGetCriteriaInCondition()
     {
-        $repository = $this->getContainer()->get('doctrine')->getRepository(Condition::class);
+        $repository = $this->entityManager->getRepository(Condition::class);
         $conditions = $repository->findAll();
         $this->assertEquals(3, count($conditions));
         $firstCondition = $conditions[0];

@@ -79,7 +79,7 @@ qualimetry: checkstyle lint.php lint.yaml composer.validate
 
 # Test
 orm.load-test:
-	php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/Tests --no-interaction --env=$(ENV)
+	php bin/console doctrine:fixtures:load --no-interaction --env=$(ENV)
 
 orm.dummy-test:
 	php bin/console entity:test

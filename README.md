@@ -102,7 +102,7 @@ So I will keep listen to your feeback, if you could help me to understand what a
 - symfony/symfony 3.4.26
 - doctrine/orm 2.7.0
 - doctrine/dbal 2.9.3
-- doctrine/doctrine-fixtures-bundle 2.4.1
-- nelmio/alice 2.3.5
-- liip/functional-test-bundle 1.11.0
-- phpunit/phpunit 5.7.27
+- doctrine/doctrine-fixtures-bundle 3.3.0
+- nelmio/alice 3.5.8
+- phpunit/phpunit 7.5.18
+- liip/test-fixtures-bundle 1.6.0
