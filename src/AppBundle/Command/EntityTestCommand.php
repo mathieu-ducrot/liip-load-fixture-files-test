@@ -47,7 +47,7 @@ class EntityTestCommand extends ContainerAwareCommand
             $output->writeln("<error>You forget to run make orm.load-test</error>\n");
             exit;
         }
-        $output->writeln(sprintf("%d conditions loaded\n", $nbConditions));
+        $output->writeln(sprintf("%d conditions loaded", $nbConditions));
         foreach ($conditions as $condition) {
             $nbCriteria = count($condition->getCriteriaInCondition());
             $output->writeln(sprintf(" - condition %s with %d criteria", $condition->getName(), $nbCriteria));
@@ -56,7 +56,6 @@ class EntityTestCommand extends ContainerAwareCommand
                     $output->writeln(sprintf(" -- criteria %s", $criteriaInCondition->getCriteria()->getData()));
                 }
             }
-            $output->writeln('');
         }
     }
 }

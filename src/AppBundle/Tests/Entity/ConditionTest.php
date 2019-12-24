@@ -2,8 +2,10 @@
 
 namespace AppBundle\Tests\Entity;
 
+use AppBundle\DataFixtures\Tests\Loader;
 use AppBundle\Entity\Condition;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\ORM\Tools\SchemaTool;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
@@ -13,6 +15,11 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
  */
 class ConditionsTest extends WebTestCase
 {
+    /** @var SchemaTool */
+    protected $schemaTool = null;
+    /** @var ClassMetadata[]|null */
+    protected $metadatas = null;
+
     /**
      * @return string
      */
@@ -26,23 +33,34 @@ class ConditionsTest extends WebTestCase
      */
     protected function setUp()
     {
-        $this->loadFixtureFiles(
-            [
-                $this->getFixtureDir() . '/condition/condition_without_criteria.yml',
-                $this->getFixtureDir() . '/condition/condition_with_criteria.yml',
-            ],
-            false,
-            null,
-            'doctrine',
-            ORMPurger::PURGE_MODE_TRUNCATE
-        );
+        if ($this->schemaTool == null) {
+            $em = $this->getContainer()->get('doctrine')->getManager();
+            $this->metadatas = $em->getMetadataFactory()->getAllMetadata();
+            $this->schemaTool = new SchemaTool($em);
+        }
+
+        $this->schemaTool->dropDatabase();
+        $this->schemaTool->createSchema($this->metadatas);
+        $this->postFixtureSetup();
+
+        $this->loadFixtures([Loader::class]);
+    }
+
+    public function testDummyLoadToCheckPurgeIdOnNextTest()
+    {
+        $repository = $this->getContainer()->get('doctrine')->getRepository(Condition::class);
+        $conditions = $repository->findAll();
+        $this->assertEquals(3, count($conditions));
     }
 
     public function testGetCriteriaInCondition()
     {
         $repository = $this->getContainer()->get('doctrine')->getRepository(Condition::class);
+        /** @var Condition[] $conditions */
         $conditions = $repository->findAll();
         $this->assertEquals(3, count($conditions));
+        $firstCondition = $conditions[0];
+        $this->assertEquals(1, $firstCondition->getId());
 
         $expectedNbCriteria = 0;
         foreach ($conditions as $condition) {
