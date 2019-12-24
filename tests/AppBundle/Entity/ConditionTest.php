@@ -2,8 +2,8 @@
 
 namespace Tests\AppBundle\Entity;
 
+use AppBundle\DataFixtures\Tests\Loader;
 use AppBundle\Entity\Condition;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
@@ -14,28 +14,11 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 class ConditionsTest extends WebTestCase
 {
     /**
-     * @return string
-     */
-    protected function getFixtureDir()
-    {
-        return 'tests/AppBundle/fixtures';
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
-        $this->loadFixtureFiles(
-            [
-                $this->getFixtureDir() . '/condition/condition_without_criteria.yml',
-                $this->getFixtureDir() . '/condition/condition_with_criteria.yml',
-            ],
-            false,
-            null,
-            'doctrine',
-            ORMPurger::PURGE_MODE_TRUNCATE
-        );
+        $this->loadFixtures([Loader::class]);
     }
 
     public function testGetCriteriaInCondition()
