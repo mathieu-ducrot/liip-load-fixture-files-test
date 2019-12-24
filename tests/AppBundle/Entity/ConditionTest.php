@@ -4,7 +4,7 @@ namespace Tests\AppBundle\Entity;
 
 use AppBundle\DataFixtures\Tests\Loader;
 use AppBundle\Entity\Condition;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\ORM\Tools\SchemaTool;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 /**
@@ -14,12 +14,34 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
  */
 class ConditionsTest extends WebTestCase
 {
+    /** @var SchemaTool */
+    protected $schemaTool = null;
+    /** @var \Doctrine\Persistence\Mapping\ClassMetadata[]|null */
+    protected $metadatas = null;
+
     /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
-        $this->loadFixtures([Loader::class], null, 'doctrine', ORMPurger::PURGE_MODE_TRUNCATE);
+        if ($this->schemaTool == null) {
+            $em = $this->getContainer()->get('doctrine')->getManager();
+            $this->metadatas = $em->getMetadataFactory()->getAllMetadata();
+            $this->schemaTool = new SchemaTool($em);
+        }
+
+        $this->schemaTool->dropDatabase();
+        $this->schemaTool->createSchema($this->metadatas);
+        $this->postFixtureSetup();
+
+        $this->loadFixtures([Loader::class]);
+    }
+
+    public function testDummyLoadToCheckPurgeIdOnNextTest()
+    {
+        $repository = $this->getContainer()->get('doctrine')->getRepository(Condition::class);
+        $conditions = $repository->findAll();
+        $this->assertEquals(3, count($conditions));
     }
 
     public function testGetCriteriaInCondition()
