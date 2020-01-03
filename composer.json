@@ -16,7 +16,6 @@
         "doctrine/doctrine-fixtures-bundle": "^2.0",
         "doctrine/orm": "^2.7",
         "incenteev/composer-parameter-handler": "~2.0",
-        "nelmio/alice": "^2.3",
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "symfony/monolog-bundle": "^3.0.2",
@@ -25,11 +24,11 @@
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
-        "liip/functional-test-bundle": "^1.9",
         "phpunit/phpunit": "^5.7",
         "sensio/generator-bundle": "~3.0",
         "squizlabs/php_codesniffer": "^3.5",
-        "symfony/phpunit-bridge": "~2.7"
+        "symfony/phpunit-bridge": "~2.7",
+        "theofidry/alice-data-fixtures": "^1.1"
     },
     "scripts": {
         "symfony-scripts": [

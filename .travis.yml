@@ -27,4 +27,5 @@ script:
   - make orm.install
   - make orm.load-test
   - make orm.dummy-test
+  - make orm.install # repurge the db before test
   - make phpunit

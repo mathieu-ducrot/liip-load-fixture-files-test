@@ -2,55 +2,45 @@
 
 namespace Tests\AppBundle\Entity;
 
-use AppBundle\DataFixtures\Tests\Loader;
 use AppBundle\Entity\Condition;
-use Doctrine\ORM\Tools\SchemaTool;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use AppBundle\Entity\CriteriaInCondition;
+use Tests\AppBundle\AbstractTestCase;
 
 /**
  * Test Condition method
  *
  * vendor/bin/phpunit tests/AppBundle/Entity/ConditionTest.php
  */
-class ConditionsTest extends WebTestCase
+class ConditionsTest extends AbstractTestCase
 {
-    /** @var SchemaTool */
-    protected $schemaTool = null;
-    /** @var \Doctrine\Persistence\Mapping\ClassMetadata[]|null */
-    protected $metadatas = null;
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
-    {
-        if ($this->schemaTool == null) {
-            $em = $this->getContainer()->get('doctrine')->getManager();
-            $this->metadatas = $em->getMetadataFactory()->getAllMetadata();
-            $this->schemaTool = new SchemaTool($em);
-        }
-
-        $this->schemaTool->dropDatabase();
-        $this->schemaTool->createSchema($this->metadatas);
-        $this->postFixtureSetup();
-
-        $this->loadFixtures([Loader::class]);
-    }
-
     public function testDummyLoadToCheckPurgeIdOnNextTest()
     {
-        $repository = $this->getContainer()->get('doctrine')->getRepository(Condition::class);
+        $this->loadFixtureFiles([
+            __DIR__ . '/../fixtures/condition/condition_without_criteria.yml',
+            __DIR__ . '/../fixtures/condition/condition_with_criteria.yml',
+        ]);
+
+        $em = $this->getEntityManager();
+        $repository = $em->getRepository(Condition::class);
         $conditions = $repository->findAll();
         $this->assertEquals(3, count($conditions));
     }
 
     public function testGetCriteriaInCondition()
     {
-        $repository = $this->getContainer()->get('doctrine')->getRepository(Condition::class);
+        $this->loadFixtureFiles([
+            __DIR__ . '/../fixtures/condition/condition_without_criteria.yml',
+            __DIR__ . '/../fixtures/condition/condition_with_criteria.yml',
+        ]);
+
+        $em = $this->getEntityManager();
+        $repository = $em->getRepository(Condition::class);
+        /** @var Condition[] $conditions */
         $conditions = $repository->findAll();
         $this->assertEquals(3, count($conditions));
         $firstCondition = $conditions[0];
         $this->assertEquals(1, $firstCondition->getId());
+        $this->assertEquals(3, count($em->getRepository(CriteriaInCondition::class)->findAll()));
 
         $expectedNbCriteria = 0;
         foreach ($conditions as $condition) {

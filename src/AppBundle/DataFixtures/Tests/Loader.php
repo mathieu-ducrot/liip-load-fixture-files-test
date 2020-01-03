@@ -4,7 +4,6 @@ namespace AppBundle\DataFixtures\Tests;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Nelmio\Alice\Fixtures;
 use Symfony\Bridge\Doctrine\Tests\Fixtures\ContainerAwareFixture;
 
 class Loader extends ContainerAwareFixture implements FixtureInterface
@@ -21,7 +20,7 @@ class Loader extends ContainerAwareFixture implements FixtureInterface
     {
         $this->fixturesDir = 'tests/AppBundle/fixtures';
 
-        Fixtures::load($this->getFiles(), $manager);
+        $this->container->get('fidry_alice_data_fixtures.loader.doctrine')->load($this->getFiles());
     }
 
     /**

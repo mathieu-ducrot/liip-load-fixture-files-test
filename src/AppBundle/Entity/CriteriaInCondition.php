@@ -68,4 +68,19 @@ class CriteriaInCondition
     {
         $this->criteria = $criteria;
     }
+    /**
+     * @return Condition
+     */
+    public function getCondition()
+    {
+        return $this->condition;
+    }
+
+    /**
+     * @param Condition $condition
+     */
+    public function setCondition($condition)
+    {
+        $this->condition = $condition;
+    }
 }
