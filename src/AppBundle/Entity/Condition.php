@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,14 +31,14 @@ class Condition
     /**
      * @ORM\OneToMany(targetEntity="CriteriaInCondition", mappedBy="condition")
      */
-    private $criteriaInCondition;
+    private $criteriaInConditions;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->criteriaInCondition = new ArrayCollection();
+        $this->criteriaInConditions = new ArrayCollection();
     }
 
     /**
@@ -65,18 +66,25 @@ class Condition
     }
 
     /**
-     * @return ArrayCollection|CriteriaInCondition[]
+     * @return Collection
      */
-    public function getCriteriaInCondition()
+    public function getCriteriaInConditions(): Collection
     {
-        return $this->criteriaInCondition;
+        return $this->criteriaInConditions;
     }
 
     /**
-     * @param ArrayCollection $criteriaInCondition
+     * @param ArrayCollection $criteriaInConditions
      */
-    public function setCriteriaInCondition($criteriaInCondition)
+    public function setCriteriaInConditions(ArrayCollection $criteriaInConditions): void
     {
-        $this->criteriaInCondition = $criteriaInCondition;
+        $this->criteriaInConditions = $criteriaInConditions;
+    }
+
+    public function addCriteriaInCondition(CriteriaInCondition $criteriaInCondition)
+    {
+        if (!$this->criteriaInConditions->contains($criteriaInCondition)) {
+            $this->criteriaInConditions->add($criteriaInCondition);
+        }
     }
 }

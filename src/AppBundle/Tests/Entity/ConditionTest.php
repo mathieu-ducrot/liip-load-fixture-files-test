@@ -47,10 +47,10 @@ class ConditionsTest extends WebTestCase
         $expectedNbCriteria = 0;
         foreach ($conditions as $condition) {
             echo("\n");
-            $nbCriteria = count($condition->getCriteriaInCondition());
+            $nbCriteria = count($condition->getCriteriaInConditions());
             echo(sprintf(" - condition %s with %d criteria", $condition->getName(), $nbCriteria));
             if ($nbCriteria > 0) {
-                foreach ($condition->getCriteriaInCondition() as $criteriaInCondition) {
+                foreach ($condition->getCriteriaInConditions() as $criteriaInCondition) {
                     echo(sprintf("\n -- criteria %s", $criteriaInCondition->getCriteria()->getData()));
                 }
             }
